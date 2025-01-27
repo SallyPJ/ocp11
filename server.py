@@ -31,7 +31,7 @@ def showSummary():
     if club:
         return render_template('welcome.html', club=club, competitions=competitions)
     else:
-        flash("Email non enregistré. Veuillez réessayer.")
+        flash("Sorry, that email wasn't found.")
         return redirect(url_for('index'))
 
 
