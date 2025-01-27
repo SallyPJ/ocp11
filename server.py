@@ -2,6 +2,7 @@ import json
 from flask import Flask,render_template,request,redirect,flash,url_for
 
 
+
 def loadClubs():
     with open('clubs.json') as c:
          listOfClubs = json.load(c)['clubs']
@@ -26,8 +27,12 @@ def index():
 
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
-    club = [club for club in clubs if club['email'] == request.form['email']][0]
-    return render_template('welcome.html',club=club,competitions=competitions)
+    club = next((club for club in clubs if club['email'] == request.form['email']), None)
+    if club:
+        return render_template('welcome.html', club=club, competitions=competitions)
+    else:
+        flash("Email non enregistré. Veuillez réessayer.")
+        return redirect(url_for('index'))
 
 
 @app.route('/book/<competition>/<club>')
