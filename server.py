@@ -1,5 +1,7 @@
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
+from datetime import datetime
+
 
 
 
@@ -12,6 +14,8 @@ def loadClubs():
 def loadCompetitions():
     with open('competitions.json') as comps:
          listOfCompetitions = json.load(comps)['competitions']
+         for competition in listOfCompetitions:
+             competition['date'] = datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S')
          return listOfCompetitions
 
 
@@ -29,6 +33,9 @@ def index():
 def showSummary():
     club = next((club for club in clubs if club['email'] == request.form['email']), None)
     if club:
+        current_date = datetime.now()
+        for competition in competitions:
+            competition['is_past'] = competition['date'] < current_date
         return render_template('welcome.html', club=club, competitions=competitions)
     else:
         flash("Sorry, that email wasn't found.")
