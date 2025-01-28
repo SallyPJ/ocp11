@@ -16,7 +16,11 @@
                 name="places"
                 id="places"
                 min ="1"
-                max="{{ club['points'] | int if club['points'] | int < competition['numberOfPlaces'] | int else competition['numberOfPlaces'] }}"
+                max="{{
+                    12 if 12 < club['points'] | int and 12 < competition['numberOfPlaces'] | int
+                    else (club['points'] | int if club['points'] | int < competition['numberOfPlaces'] | int else competition['numberOfPlaces'])
+                }}"
+                required
         />
         <button type="submit">Book</button>
     </form>
