@@ -2,9 +2,6 @@ import json
 from flask import Flask,render_template,request,redirect,flash,url_for
 from datetime import datetime
 
-
-
-
 def loadClubs():
     with open('clubs.json') as c:
          listOfClubs = json.load(c)['clubs']
@@ -35,7 +32,7 @@ clubs = loadClubs()
 
 @app.route('/')
 def index():
-    return render_template('index.html', clubs=clubs)
+    return render_template('index.html')
 
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
@@ -76,8 +73,9 @@ def purchasePlaces():
     flash('Great-booking complete!')
     return render_template('welcome.html', club=club, competitions=competitions)
 
-
-# TODO: Add route for points display
+@app.route('/points-overview')
+def points_overview():
+    return render_template('points_overview.html', clubs=clubs)
 
 
 @app.route('/logout')
