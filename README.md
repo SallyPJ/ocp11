@@ -5,47 +5,84 @@
 
     This is a proof of concept (POC) project to show a light-weight version of our competition booking platform. The aim is the keep things as light as possible, and use feedback from the users to iterate.
 
-2. Getting Started
+# Project 11 - gudlift-registration
 
-    This project uses the following technologies:
+## Description
+**gudlift-registration** is a web application designed for managing sports competitions. It allows clubs to register, book spots for competitions, and track their status in real-time.
 
-    * Python v3.x+
+## Main Features
+- **Authentication**: Secure login for clubs.
+- **Competition Management**: Display available competitions and their status.
+- **Spot Reservation**: Clubs can reserve a certain number of spots for a given competition.
+- **Data Management**: Storage and retrieval of club and competition information via JSON files.
+- **Automated Testing**: Test suite to ensure the proper functioning of the application.
 
-    * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+## Technologies Used
+- **Backend**: Flask (Python)
+- **Database**: JSON (files `clubs.json` and `competitions.json`)
+- **Testing**: Pytest & Coverage
+- **Virtual Environment**: Virtualenv
 
-        Whereas Django does a lot of things for us out of the box, Flask allows us to add only what we need. 
-     
+## Installation and Execution
+### Prerequisites
+- Python 3.x
+- Virtualenv
 
-    * [Virtual environment](https://virtualenv.pypa.io/en/stable/installation.html)
+### Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/SallyPJ/P11.git
+   cd P11
+   ```
+2. Create and activate a virtual environment:
+   ```sh
+   python -m venv .venv
+   source .venv/bin/activate  # macOS/Linux
+   .venv\Scripts\activate     # Windows
+   ```
+3. Install dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
+4. Run the application:
+   ```sh
+   flask run
+   ```
+   The application will be accessible at `http://127.0.0.1:5000/`.
 
-        This ensures you'll be able to install the correct packages without interfering with Python on your machine.
+## Project Structure
+```
+P11/
+│── app.py                 # Main application file
+│── clubs.json             # Club data
+│── competitions.json      # Competition data
+│── requirements.txt       # Dependencies
+│── templates/             # HTML Templates
+│── tests/                 # Test files
+│── README.md              # Project documentation
+```
 
-        Before you begin, please ensure you have this installed globally. 
+## Running Tests
+
+### Tests report
+The application includes a test suite to ensure proper functionality. To run tests, use:
+```sh
+pytest
+```
+### Coverage report
+To generate a test coverage report:
+```sh
+coverage run -m pytest
+coverage report -m
+```
+### Load Testing
+
+To execute a load test, navigate to the project directory and run:
+```sh
+locust -f tests/locustfile.py
+```
+
+Then, open a browser and visit http://localhost:8089/ to configure and start the load test.
 
 
-3. Installation
-
-    - After cloning, change into the directory and type <code>virtualenv .</code>. This will then set up a a virtual python environment within that directory.
-
-    - Next, type <code>source bin/activate</code>. You should see that your command prompt has changed to the name of the folder. This means that you can install packages in here without affecting affecting files outside. To deactivate, type <code>deactivate</code>
-
-    - Rather than hunting around for the packages you need, you can install in one step. Type <code>pip install -r requirements.txt</code>. This will install all the packages listed in the respective file. If you install a package, make sure others know by updating the requirements.txt file. An easy way to do this is <code>pip freeze > requirements.txt</code>
-
-    - Flask requires that you set an environmental variable to the python file. However you do that, you'll want to set the file to be <code>server.py</code>. Check [here](https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application) for more details
-
-    - You should now be ready to test the application. In the directory, type either <code>flask run</code> or <code>python -m flask run</code>. The app should respond with an address you should be able to go to using your browser.
-
-4. Current Setup
-
-    The app is powered by [JSON files](https://www.tutorialspoint.com/json/json_quick_guide.htm). This is to get around having a DB until we actually need one. The main ones are:
-     
-    * competitions.json - list of competitions
-    * clubs.json - list of clubs with relevant information. You can look here to see what email addresses the app will accept for login.
-
-5. Testing
-
-    You are free to use whatever testing framework you like-the main thing is that you can show what tests you are using.
-
-    We also like to show how well we're testing, so there's a module called 
-    [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
 
