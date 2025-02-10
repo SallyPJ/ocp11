@@ -63,13 +63,28 @@ def book(competition, club):
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
-@app.route('/purchasePlaces', methods=['POST'])
+@app.route('/purchasePlaces',methods=['POST'])
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
+    if not competition or not club:
+        flash("Invalid competition or club.")
+        return render_template('welcome.html', club=club, competitions=competitions)
     placesRequired = int(request.form['places'])
 
-    competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+    # Prevents booking negative or zero places
+    if placesRequired <= 0:
+        flash("Invalid number of places.")
+        return render_template('welcome.html', club=club, competitions=competitions)
+
+    # Ensures user cannot book more than max (12, club points, available places)
+    max_bookable = min(12, int(club['points']), int(competition['numberOfPlaces']))
+    if placesRequired > max_bookable:
+        flash(f"You can only book up to {max_bookable} places.")
+        return render_template('welcome.html', club=club, competitions=competitions)
+
+    # Deducts places and club points
+    competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - placesRequired
     club['points'] = int(club['points']) - placesRequired
 
     saveClubs()
