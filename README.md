@@ -69,17 +69,20 @@ The application includes a test suite to ensure proper functionality. To run tes
 ```sh
 pytest
 ```
+To generate an html test report, use:
+```sh
+pytest --html=pytest_report.html --self-contained-html
+```
 ### Coverage report
 To generate a test coverage report:
 ```sh
-coverage run -m pytest
-coverage report -m
+pytest --cov=. --cov-report=html    
 ```
 ### Load Testing
 
 To execute a load test, navigate to the project directory and run:
 ```sh
-locust -f tests/locustfile.py
+locust -f tests/performance/locustfile.py    
 ```
 
 Then, open a browser and visit http://localhost:8089/ to configure and start the load test.
