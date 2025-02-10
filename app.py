@@ -72,15 +72,24 @@ def purchasePlaces():
         return render_template('welcome.html', club=club, competitions=competitions)
     placesRequired = int(request.form['places'])
 
-    # Prevents booking negative or zero places
+    # Prevent negative or zero bookings
     if placesRequired <= 0:
         flash("Invalid number of places.")
         return render_template('welcome.html', club=club, competitions=competitions)
 
-    # Ensures user cannot book more than max (12, club points, available places)
-    max_bookable = min(12, int(club['points']), int(competition['numberOfPlaces']))
-    if placesRequired > max_bookable:
-        flash(f"You can only book up to {max_bookable} places.")
+    # Prevent booking more than 12 places
+    if placesRequired > 12:
+        flash("You cannot book more than 12 places at once.")
+        return render_template('welcome.html', club=club, competitions=competitions)
+
+    # Ensure the club has enough points for booking
+    if placesRequired > int(club['points']):
+        flash("You do not have enough points to book this many places.")
+        return render_template('welcome.html', club=club, competitions=competitions)
+
+    # Ensure the competition has enough places
+    if placesRequired > int(competition['numberOfPlaces']):
+        flash("Not enough places available in this competition.")
         return render_template('welcome.html', club=club, competitions=competitions)
 
     # Deducts places and club points
