@@ -1,6 +1,6 @@
 import pytest
 import json
-from app import loadClubs, loadCompetitions, saveClubs, saveCompetitions, showSummary, app, index, book
+from app import loadClubs, loadCompetitions, saveClubs, saveCompetitions, showSummary, app, index, book, purchasePlaces
 from flask import url_for, get_flashed_messages
 from datetime import datetime
 from conftest import client
@@ -213,3 +213,39 @@ def test_book_valid_club_competition(mocker):
     # Ensure render_template is called with booking.html and correct parameters
     mock_render_template.assert_called_once_with('booking.html', club=mock_clubs[0], competition=mock_competitions[0])
 
+def test_purchase_places_success(mocker):
+    """
+    Unit test for `purchasePlaces()` when booking is successful.
+    - Ensures places are deducted correctly.
+    - Ensures club points are deducted correctly.
+    - Ensures the correct flash message is displayed.
+    """
+    # Mock data
+    mock_clubs = [{'name': 'Test Club', 'email': 'test@email.com', 'points': 10}]
+    mock_competitions = [{'name': 'Test Competition', 'numberOfPlaces': '5'}]
+
+    # Patch global variables
+    mocker.patch('app.clubs', mock_clubs)
+    mocker.patch('app.competitions', mock_competitions)
+
+    # Mock saveClubs and saveCompetitions to prevent file writes
+    mocker.patch('app.saveClubs')
+    mocker.patch('app.saveCompetitions')
+
+    # Mock flash and render_template
+    mock_flash = mocker.patch('app.flash')
+    mock_render_template = mocker.patch('app.render_template')
+
+    # Create request context
+    with app.test_request_context(method='POST', data={'competition': 'Test Competition', 'club': 'Test Club', 'places': '3'}):
+        response = purchasePlaces()
+
+    # Ensure places and points are updated correctly
+    assert mock_competitions[0]['numberOfPlaces'] == 2  # 5 - 3
+    assert mock_clubs[0]['points'] == 7  # 10 - 3
+
+    # Ensure flash message confirms booking
+    mock_flash.assert_called_once_with('Great-booking complete!')
+
+    # Ensure correct template is rendered
+    mock_render_template.assert_called_once_with('welcome.html', club=mock_clubs[0], competitions=mock_competitions)
