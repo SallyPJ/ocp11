@@ -1,12 +1,13 @@
 import sys
+import pytest
+import shutil
 import os
+from app import app
 
 
 # Add the project root (P11) to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import pytest
-from app import app
 
 @pytest.fixture
 def client():
@@ -14,15 +15,13 @@ def client():
     with app.test_client() as client:
         yield client
 
-import pytest
-import shutil
-import os
 
 # Définition des fichiers JSON
 CLUBS_FILE = "clubs.json"
 COMPETITIONS_FILE = "competitions.json"
 BACKUP_CLUBS_FILE = "clubs_backup.json"
 BACKUP_COMPETITIONS_FILE = "competitions_backup.json"
+
 
 @pytest.fixture(scope="function", autouse=True)
 def restore_json_files():

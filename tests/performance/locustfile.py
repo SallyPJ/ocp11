@@ -1,4 +1,5 @@
-from locust import HttpUser, task, between
+from locust import HttpUser, task
+
 
 class ProjectPerfTest(HttpUser):
     host = "http://localhost:5000"
@@ -9,8 +10,6 @@ class ProjectPerfTest(HttpUser):
 
     @task()
     def show_summary(self):
-        # Simuler l'envoi d'un email pour accéder à la page de résumé
-        # Remplacez "test@example.com" par un email valide présent dans votre JSON
         self.client.post("/showSummary", data={"email": "john@simplylift.co"})
 
     @task()
