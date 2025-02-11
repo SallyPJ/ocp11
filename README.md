@@ -1,10 +1,3 @@
-# gudlift-registration
-
-1. Why
-
-
-    This is a proof of concept (POC) project to show a light-weight version of our competition booking platform. The aim is the keep things as light as possible, and use feedback from the users to iterate.
-
 # Project 11 - gudlift-registration
 
 ## Description
@@ -46,6 +39,7 @@
    ```
 4. Run the application:
    ```sh
+   $env:FLASK_APP="app.py"   
    flask run
    ```
    The application will be accessible at `http://127.0.0.1:5000/`.
@@ -76,7 +70,7 @@ pytest --html=pytest_report.html --self-contained-html
 ### Coverage report
 To generate a test coverage report:
 ```sh
-pytest --cov=. --cov-report=html    
+pytest --cov=app --cov-report=html    
 ```
 ### Load Testing
 

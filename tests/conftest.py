@@ -1,12 +1,7 @@
-import sys
 import pytest
 import shutil
 import os
 from app import app
-
-
-# Add the project root (P11) to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 @pytest.fixture
@@ -16,7 +11,7 @@ def client():
         yield client
 
 
-# Définition des fichiers JSON
+# Define the JSON files
 CLUBS_FILE = "clubs.json"
 COMPETITIONS_FILE = "competitions.json"
 BACKUP_CLUBS_FILE = "clubs_backup.json"
@@ -33,12 +28,12 @@ def restore_json_files():
     shutil.copy(CLUBS_FILE, BACKUP_CLUBS_FILE)
     shutil.copy(COMPETITIONS_FILE, BACKUP_COMPETITIONS_FILE)
 
-    yield  # Exécute le test ici
+    yield
 
-    # Restauration des fichiers après le test
+    # Restore the original JSON files
     shutil.copy(BACKUP_CLUBS_FILE, CLUBS_FILE)
     shutil.copy(BACKUP_COMPETITIONS_FILE, COMPETITIONS_FILE)
 
-    # Suppression des fichiers temporaires
+    # Delete backup files
     os.remove(BACKUP_CLUBS_FILE)
     os.remove(BACKUP_COMPETITIONS_FILE)

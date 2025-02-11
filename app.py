@@ -45,6 +45,8 @@ def showSummary():
     if club:
         current_date = datetime.now()
         for competition in competitions:
+            if isinstance(competition['date'], str):
+                competition['date'] = datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S')
             competition['is_past'] = competition['date'] < current_date
         return render_template('welcome.html', club=club, competitions=competitions)
     else:
@@ -54,8 +56,8 @@ def showSummary():
 
 @app.route('/book/<competition>/<club>')
 def book(competition, club):
-    foundClub = [c for c in clubs if c['name'] == club][0]
-    foundCompetition = [c for c in competitions if c['name'] == competition][0]
+    foundClub = next((c for c in clubs if c['name'] == club), None)
+    foundCompetition = next((c for c in competitions if c['name'] == competition), None)
     if foundClub and foundCompetition:
         return render_template('booking.html', club=foundClub, competition=foundCompetition)
     else:
@@ -65,8 +67,8 @@ def book(competition, club):
 
 @app.route('/purchasePlaces', methods=['POST'])
 def purchasePlaces():
-    competition = [c for c in competitions if c['name'] == request.form['competition']][0]
-    club = [c for c in clubs if c['name'] == request.form['club']][0]
+    competition = next((c for c in competitions if c['name'] == request.form['competition']), None)
+    club = next((c for c in clubs if c['name'] == request.form['club']), None)
     if not competition or not club:
         flash("Invalid competition or club.")
         return render_template('welcome.html', club=club, competitions=competitions)

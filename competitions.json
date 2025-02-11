@@ -1,0 +1,28 @@
+{
+    "competitions": [
+        {
+            "name": "Spring Festival",
+            "date": "2020-03-27 10:00:00",
+            "numberOfPlaces": "25",
+            "is_past": true
+        },
+        {
+            "name": "Fall Classic",
+            "date": "2020-10-22 13:30:00",
+            "numberOfPlaces": "13",
+            "is_past": true
+        },
+        {
+            "name": "Summer Contest",
+            "date": "2025-07-22 13:30:00",
+            "numberOfPlaces": 0,
+            "is_past": false
+        },
+        {
+            "name": "Winter Competition",
+            "date": "2025-02-22 13:30:00",
+            "numberOfPlaces": 22,
+            "is_past": false
+        }
+    ]
+}
